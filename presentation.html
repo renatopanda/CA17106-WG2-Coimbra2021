@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Renato Panda" />
+  <meta name="dcterms.date" content="2021-09-08" />
+  <title>Exploring emotional information in music</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="presentation_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="presentation_files/reveal.js-3.3.0.1/css/theme/night.css" id="theme">
+
+<style type="text/css">
+.reveal section img {
+  background: rgba(255, 255, 255, 0.85);
+}
+</style>
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="presentation_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="presentation_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="presentation_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Exploring emotional information in music</h1>
+  <h1 class="subtitle"><small>Challenges of Machine Learning approaches</small></h1>
+    <h2 class="author">Renato Panda</h2>
+    <h3 class="date">September 8, 2021</h3>
+</section>
+
+<section id="about-me" class="title-slide slide level1">
+<h1>About Me</h1>
+<style>
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+}
+</style>
+<div class="container">
+<div class="col" style="text-align: left;">
+<p>Renato Panda, PhD<br> I. Researcher @ Ci2.IPT<br> C. Researcher @ CISUC (MIRlab)<br></p>
+Research Interests:
+<ul>
+<li>
+Emotion Recognition
+</li>
+<li>
+Information Retrieval
+</li>
+<li>
+<i>Applied Machine Learning &amp; Software Engineering</i>
+</li>
+</ul>
+<p><a href="https://renatopanda.github.io" class="uri">https://renatopanda.github.io</a></p>
+</div>
+<div class="col">
+<p><img src="images/prof_pic.jpg" height="400"></p>
+</div>
+</div>
+<aside class="notes">
+<p>Briefly, my name is RP.</p>
+My main research areas are emotion recognition and information retrieval in music. Still, I also apply ML and advanced SE concepts to solve general problems an develop prototypes.
+</aside>
+</section>
+
+<section>
+<section id="what-is-music-information-retrieval" class="title-slide slide level1">
+<h1>What is Music Information Retrieval?</h1>
+<p>The interdisciplinary science of retrieving information from music. Small but growing field of research with many real-world applications.</p>
+<aside class="notes">
+Starting with my main research field: MIR. It bridges several areas, where we try to automatically extract information from music (for instance audio signals).
+</aside>
+</section>
+<section id="music-classification" class="slide level2">
+<h2>Music Classification</h2>
+<p><img src="images/music_classification.jpg" height="400"></p>
+<p>Categorizing music items by genre, emotion, artist, and so on.</p>
+<aside class="notes">
+This means, for example, automatic classification of songs by genre (e.g., rock), identify the artist, the emotion it carries and so on.
+</aside>
+</section>
+<section id="music-recommendation-spotify" class="slide level2">
+<h2>Music Recommendation (Spotify)</h2>
+<p><img src="images/spotify_recommendation_pipeline.jpg" height="500"></p>
+<aside class="notes">
+<p>A 2nd example are recommendation systems such as Spotify, which are able to guess what musics we enjoy (this uses more than MIR).</p>
+It’s important to note that these are very complex and combine a myriad of techniques, from social data, to text, raw audio, curated data…
+</aside>
+</section>
+<section id="music-source-separation-and-recognition" class="slide level2">
+<h2>Music Source Separation and Recognition</h2>
+<p><img src="images/spleeter.jpg" height="550"></p>
+<aside class="notes">
+We have source separation, to split an original song into instruments or lines.
+</aside>
+</section>
+<section id="automatic-music-transcription" class="slide level2">
+<h2>Automatic Music Transcription</h2>
+<p><img src="images/music%20transcription.jpg" height="550"></p>
+<aside class="notes">
+Converting an audio recording into its symbolic notation.
+</aside>
+</section>
+<section id="audio-fingerprinting" class="slide level2">
+<h2>Audio Fingerprinting</h2>
+<p><img src="images/shazam.gif" height="400"></p>
+<audio controls>
+<source src="./images/Dance Monkey Sample.mp3" type="audio/mpeg">
+<p>Your browser does not support the audio tag. </audio></p>
+<audio controls>
+<source src="./images/Dance Monkey Sample.mp3" type="audio/mpeg">
+<p>Your browser does not support the audio tag. </audio></p>
+<aside class="notes">
+Audio fingerprinting, to recognize a song in seconds (even with noise) as with Shazam.
+</aside>
+</section>
+<section id="music-search-and-discover" class="slide level2">
+<h2>Music Search and Discover</h2>
+<video data-autoplay src="./images/Google Hum to Search.mp4" controls>
+</video>
+<aside class="notes">
+We have other search mechanisms such as query by humming, which is nowadays supported by Google Search.
+</aside>
+</section></section>
+<section id="what-is-music-emotion-recognition" class="title-slide slide level1">
+<h1>What is Music Emotion Recognition?</h1>
+<p>Subfield of MIR that deals with emotion.</p>
+<aside class="notes">
+Within this field we have a sub-field called MER that deals with the emotional content in music.
+</aside>
+</section>
+
+<section>
+<section id="why-mer" class="title-slide slide level1">
+<h1>Why MER?</h1>
+<aside class="notes">
+<p>And why is capturing emotion in music relevant?</p>
+Então porque é que eu tenho interesse em explorar a emoção que é transmitida por uma música?
+</aside>
+</section>
+<section id="the-information-age" class="slide level2">
+<h2>The Information Age</h2>
+<p>Music distribution methods changed drastically in the last decades.</p>
+<p>Streaming services provide millions of songs.</p>
+<p><img src="images/spotify.jpg" height="100"> <img src="images/youtube_music.png" height="100"> <img src="images/pandora.jpg" height="100"></p>
+<aside class="notes">
+In brief,in the last decades we went from buying music at a small local stores to streaming services with millions of songs available.
+</aside>
+</section>
+<section id="information-overload" class="slide level2">
+<h2>Information Overload</h2>
+<p>How do we browse such collections effectively? <img src="images/information_overload.jpg"></p>
+<aside class="notes">
+…and thus nowadays the typical search methods (artist, genre) are limited, making it harder to discover new music effectively.
+</aside>
+</section>
+<section id="what-do-we-know-about-music" class="slide level2">
+<h2>What do we know about music?</h2>
+<p>Music has been with us since our prehistoric times, serving as kind of a “language of emotion”.</p>
+<p>Regarded as music’s primary purpose (Cooke, 1959), the “ultimate reason why humans engage with it” (Pannese et al., 2016).</p>
+<p><img src="images/relax.png" height="200"> <img src="images/exercise.jpg" height="200"> <img src="images/cinema.png" height="200"></p>
+<aside class="notes">
+<p>However, we know that music has always been connected to us, in the most diverse contexts (e.g. war, religion, entertainment). Why? Because music works as a language to tell stories and express emotions.</p>
+Thus, the idea of capturing this emotion information and use it to recommend songs, in cinema and advertising, playlists, therapy…
+</aside>
+</section></section>
+<section id="how-mer-works" class="title-slide slide level1">
+<h1>How MER Works?</h1>
+<p>Bridges several different fields such as music theory, psychology and computer science (DSP and ML).</p>
+<aside class="notes">
+How do we do this? It is a typical ML problem, that uses knowledge from distinct fields (music, psychology, computer science).
+</aside>
+</section>
+
+<section>
+<section id="music-as-in-audio-lyrics-scores" class="title-slide slide level1">
+<h1>Music as in <em>Audio</em>? Lyrics? Scores?</h1>
+<aside class="notes">
+First, we select a type of data. In my case I work mostly with audio but also text (lyrics)…
+</aside>
+</section>
+<section id="what-is-sound-and-music" class="slide level2">
+<h2>What is Sound and Music?</h2>
+<p><img src="images/drums.gif" height="250"> <img src="images/guitar.gif" height="250"></p>
+<p><img src="images/sound_wave.gif" width="800"></p>
+<aside class="notes">
+And audio or sounds are simply variations in air pressure, caused for instance by hitting a drum and making the membrane push the air around it creating sound waves.
+</aside>
+</section>
+<section id="musical-notes-wave-properties" class="slide level2">
+<h2>Musical Notes &amp; Wave Properties</h2>
+<p><img src="images/sound_wave_properties.jpg" height="500"> <img src="images/note-names-frequencies.png" height="500"></p>
+<aside class="notes">
+These sound waves have characteristics such as amplitude and frequency that define their notes and can be analysed with DSP.
+</aside>
+</section></section>
+<section>
+<section id="emotion-and-emotion-taxonomies" class="title-slide slide level1">
+<h1>Emotion and Emotion Taxonomies</h1>
+<aside class="notes">
+Next we delve into psychology to understand how can we classify emotions.
+</aside>
+</section>
+<section id="what-is-emotion" class="slide level2">
+<h2>What is Emotion?</h2>
+<p>A short experience in response to a [musical] stimulus.</p>
+<p><span class="fragment fade-in"> <strong>Context and Subjectivity</strong><br />
+Basic emotions are universal (Ekman, 1987)<br />
+… but also subjective and context-dependent.<br/> We focus on <em>perceived</em> emotion (!= felt). </span></p>
+<aside class="notes">
+<p>Here, to simplify, we assume that emotion is a short experience in response to a musical stimulus.</p>
+This is one of the difficult parts in MER, because these experiences are: * subjective - two persons can report different emotions * context-dependent
+</aside>
+</section>
+<section id="how-do-we-classify-emotions" class="slide level2">
+<h2>How do we classify emotions?</h2>
+<div class="container">
+<div class="col" style="text-align: left;">
+Categorical Models
+<ul>
+<li>
+Basic emotions (Ekman, 1992)
+</li>
+<li>
+Hevner’s adjective circle (Hevner, 1936)
+</li>
+<li>
+MIREX AMC Task (Hu et al., 2007)
+</li>
+</ul>
+</div>
+<div class="col">
+<p><img src="images/Ekman.png" height="400"></p>
+</div>
+</div>
+<aside class="notes">
+There are several taxonomies, normally divided into two approaches: categorical, using words to describe emotions - such as happy and sad.
+</aside>
+</section>
+<section id="how-do-we-classify-emotions-1" class="slide level2">
+<h2>How do we classify emotions?</h2>
+<div class="container">
+<div class="col" style="text-align: left;">
+Dimensional Models
+<ul>
+<li>
+Russell’s model (Russell, 1980)
+</li>
+<small>
+<ul>
+<li>
+Valence (pleasure-displeasure) and arousal
+</li>
+</ul>
+</small>
+<li>
+Thayer’s model (Thayer, 1989)
+</li>
+<small>
+<ul>
+<li>
+Energetic arousal vs. tense arousal
+</li>
+</ul>
+</small>
+</ul>
+</div>
+<div class="col">
+<p><img src="images/russell%20adapted.png" height="450"></p>
+</div>
+</div>
+<aside class="notes">
+And we have dimensional models, more complex, where emotions are points in, for example, a 2D plane with intensity and valence.
+</aside>
+<!-- ## Relations between Music and Emotions -->
+<!-- <div style="text-align:left;"> -->
+<!-- Several associations have been found:    -->
+<!-- * Articulation – overall (staccato/legato), variability  -->
+<!-- * Melody – range (small/large), direction (up/down)  -->
+<!-- * Rhythm – (regular-smooth/firm/flowing-fluent/irregular-rough)  -->
+<!-- * Mode – (major/minor)  -->
+<!-- * Dynamics – overall level, crescendo / diminuendo, accents -->
+<!-- * Harmony – (consonant/complex-dissonant)  -->
+<!-- </p> -->
+<!-- <aside class="notes"> -->
+<!-- Finally, still in musical psychology, we have some relations that are known between music and emotions. -->
+<!-- E.g., we know that major modes are associated with happiness. -->
+<!-- Por fim temos os estudos de psicologia musical, que relacionam algumas características musicais e emoção. Por exemplo dizem que sons alegres são mais simples e consonantes (com harmonia), que os modos maiores são também alegres e por aí fora. -->
+<!-- </aside> -->
+<!-- ## Relations between Music and Emotions -->
+<!-- <img src="./images/not so fast.jpg"> -->
+<!-- > - Research results can be quite **inconsistent across studies** -->
+<!-- > - Many musical concepts are **difficult to extract** -->
+<!-- > - Some **require further research** (psychological perspective) -->
+<!-- <aside class="notes"> -->
+<!-- The main issue is that many of these studies are quite contradictory and there are few computational methods to extract these from the audio signal. -->
+<!-- O problema é que estes estudos têm resultados algo inconsistentes e é bem difícil de pegar num sinal áudio, numa sequência de variações de pressão, e transformar aquilo numa das características anteriores... -->
+<!-- </aside> -->
+</section></section>
+<section>
+<section id="mer-and-machine-learning" class="title-slide slide level1">
+<h1>MER and Machine Learning</h1>
+<aside class="notes">
+Finally we reach the ML part and apply it to MER (as in any other problem)
+</aside>
+</section>
+<section id="machine-learning-deep-learning" class="slide level2">
+<h2>Machine Learning? Deep Learning?</h2>
+<p><img src="images/classicML_vs_DL.png" height="550"></p>
+<aside class="notes">
+<p>Nowadays we have traditional ML and deep learning. It starts with a dataset, such as messages from twitter or songs.</p>
+<p>Traditionally, we apply <strong>handcrafted</strong> algorithms to extract metrics from these examples: this could be the presence of bad words in a tweet, or the presence of guitars in a song. Then we apply some ML algorithms, to recognize patterns between these features and the labels.</p>
+<p>Deep learning became an hot topic recently because it is able to learn features, eliminating the hardest part (<strong>handcraft features</strong>). It is only possible due to two things: 1. Immense amounts of data that some fields have (photos!) 2. Powerful GPUs</p>
+In MER we mostly use traditional methods because we lack large datasets.
+</aside>
+</section></section>
+<section>
+<section id="dataset-collection" class="title-slide slide level1">
+<h1>Dataset Collection</h1>
+<aside class="notes">
+Regarding datasets…
+</aside>
+</section>
+<section id="mer-datasets" class="slide level2">
+<h2>MER Datasets</h2>
+<p>Most are very small (&lt;1000 songs) or large (1M songs) but with low quality annotations (uncontrolled)</p>
+<ul>
+<li>2018 - 4QAED, 900 clips, 4 classes (validated)</li>
+<li>2016 - DEAM, 1802 songs, AV using MTurk (low quality)</li>
+<li>2013 - MIREX-like, 903 songs (30-sec clips), 764 lyrics and 193 MIDI files, 5 classes (non-validated)</li>
+<li>2012 - DEAP120, 120 song/videos + EEGs + biosignals + questionnaires, AV</li>
+<li>2011 - MSD, nearly 1 million song entries and features, Last.FM uncontrolled tags</li>
+</ul>
+<aside class="notes">
+<p>There are several but they are either too small (&lt;1000 songs) or really large, such as the MSD, but with poor annotations from social media. <strong>Hence, it’s hard to use DL in MER</strong></p>
+<p>Your models will only be as good as your data.</p>
+Extra: For instance, if you have a million song dataset of plants but many are wrongly labeled the relations that you can extract from the data will be wrong too.
+</aside>
+</section>
+<section id="building-a-mer-dataset" class="slide level2">
+<h2>Building a MER Dataset</h2>
+<p><img src="images/Dataset%20diagram%20-%20presentation%20-%20aligned.png" width="800"></p>
+<aside class="notes">
+Thus, part of my work has been related with building datasets, organizing audio and annotations from online sources, processing and validating them.
+</aside>
+</section>
+<section id="building-a-mer-dataset---human-validation" class="slide level2">
+<h2>Building a MER Dataset - Human Validation</h2>
+<video data-autoplay src="./images/awa.mp4" controls>
+</video>
+<aside class="notes">
+As an example, this is one of our prototypes used to listen and annotate emotions in songs.
+</aside>
+</section></section>
+<section>
+<section id="feature-extraction" class="title-slide slide level1">
+<h1>Feature Extraction</h1>
+<aside class="notes">
+<p>From the dataset we extract features.</p>
+In music this can be the song’s duration, beats per minute or very abstract statistics.
+</aside>
+<!-- ## What is a Feature? -->
+<!-- Describes a characteristic part of something.    -->
+<!-- What distiguishes these persons? -->
+<!-- <img src="./images/people.png" width="550"> -->
+<!-- * For a song it could be the genre, its tempo, melody, or even more abstract metrics of the signal itself. -->
+<!-- <aside class="notes"> -->
+<!-- ... which are characteristics that allow to distinguish them. In music this can be the duration, beats per minute or very abstract statistics. -->
+<!-- Como já vimos, uma features significa uma característica que permite distinguir os exemplos. Se pensarmos em pessoas? O que poderia ser uma feature? Podia ser o tamanho do cabelo, a cor da pele, a altura, se usa óculos, etc. -->
+<!-- Ao falarmos de música, uma feature pode ser o género (ex. rock), as batidas por minuto, a duração, ou até podem ser coisas bastante abstractas relacionadas com o próprio sinal. -->
+<!-- </aside> -->
+</section>
+<section id="zero-crossing-rate" class="slide level2">
+<h2>Zero Crossing Rate</h2>
+<p>A simple indicator of noisiness consists in counting the number of times the signal crosses the X-axis (or, in other words, changes sign).</p>
+<p><img src="images/features_zcr.jpg" width="700"></p>
+<aside class="notes">
+One simple example is the ZCR, it simply counts the number of times the signal passes 0.
+</aside>
+</section>
+<section id="tempo-and-tempogram" class="slide level2">
+<h2>Tempo and Tempogram</h2>
+<p><img src="images/features_tempogram.png" height="600"></p>
+<aside class="notes">
+Obviously, the most interesting are the higher-level ones that we (humans) associate with music, such as the estimation of tempo in beats per minute.
+</aside>
+<!-- # Data Preprocessing / Preparation -->
+<!-- <aside class="notes"> -->
+<!-- I will skip this part, which includes several steps applied to features: -->
+<!-- * Clean invalid or empty values -->
+<!-- * Selecting the most relevant -->
+<!-- * Summarize complex representations (statistics) -->
+<!-- </aside> -->
+</section></section>
+<section>
+<section id="machine-learning" class="title-slide slide level1">
+<h1>Machine Learning</h1>
+<aside class="notes">
+Finally we apply ML algorithms to these sets of features and labels
+</aside>
+<!-- ## What is Supervised Learning in ML? -->
+<!-- <img src="./images/what-is-supervised-learning.png"> -->
+<!-- > - How to select the right ML algorithm (and its parameters)? -->
+<!-- <aside class="notes"> -->
+<!-- The idea is simple but the problem is which method and parameter to use? -->
+<!-- Aqui o princípio é simples, falando de aprendizagem supervisionada, nós começamos com um dataset anotado, por exemplo com imagens de bananas e maçãs. Pegamos nas features que representam esse dataset e usamos um algorítmo de ML. Esse algorítmo vai reconhecer um conjunto de padrões, de relações entre essas features. No fim, quando queremos classificar uma nova imagem vamos dar as features deste novo caso ao modelo, que usa as relações que descobriu para a classificar numa das classes anteriores. -->
+<!-- No entanto isto levanta uma série de questões, entre elas... Como é que eu sei quão bom é o modelo que treinei antes de o aplicar em produção? -->
+<!-- </aside> -->
+</section>
+<section id="ml-algorithms" class="slide level2">
+<h2>ML Algorithms</h2>
+<p><img src="images/ml_algos2.jpg" height="600"></p>
+<aside class="notes">
+These are just some examples of the existing ML algos, so how do we pick one? Which parameters do we use?
+</aside>
+</section>
+<section id="a-hints-experimentation" class="slide level2">
+<h2>A: Hints &amp; Experimentation</h2>
+<p><img src="images/ml_map_cropped.png" height="550"></p>
+<aside class="notes">
+<p>Although there are some suggested paths, normally we test several configurations, assessing performance.</p>
+With DL it gets even more complicated, because the entire network needs to be designed and it is kind of an alchemy (type of networks, layers, activation)
+</aside>
+<!-- ## *K*-nearest Neighbors (KNN) - remove -->
+<!-- Assigns a label based on most common class among its k nearest neighbors -->
+<!-- <img src="./images/knn.png"> -->
+<!-- <aside class="notes"> -->
+<!-- Um dos exemplos mais simples é o KNN, em que um novo exemplo é classificado com base nos K vizinhos mais próximos. Por exemplo, temos duas features (Y e X), duas classes. Chega um novo exemplo, é colocado no espaço e classificado com base na proximidade. Neste caso seria verde, classe B. -->
+<!-- </aside> -->
+<!-- ## *K*-nearest Neighbors (KNN) - remove -->
+<!-- How to select the right *k*? -->
+<!-- <img src="./images/knn2.png"> -->
+<!-- * Larger *k* reduces the effect of the noise, but makes boundaries between classes less distinct -->
+<!-- * Normally selected by experimentation (hyperparameter optimization) -->
+<!-- <aside class="notes"> -->
+<!-- Mesmo este algoritmo mais simples não é assim tão simples, como escolho o valor de K? Por norma é com base em experimentação. -->
+<!-- </aside> -->
+<!-- ## Traditional MER ML Workflow -->
+<!-- <ol> -->
+<!-- <li>Gather a dataset (e.g., audio + annotations)</li> -->
+<!-- <li class="fragment">Extract features (e.g., using audio frameworks)</li> -->
+<!-- <li class="fragment">Prepare data -->
+<!--   <ul> -->
+<!--     <li>Clean, transform, reduce/rank, scale</li> -->
+<!--   </ul> -->
+<!-- </li> -->
+<!-- <li class="fragment">Test various ML algorithms and optimize parameters</li> -->
+<!-- <li class="fragment">Gather results (Accuracy, F1-score, Confusion Matrix)</li> -->
+<!-- <li class="fragment">[Production?] Train a final MER ML model</li> -->
+<!-- <aside class="notes"> -->
+<!-- In summary, we build a dataset, extract features, prepare the data, train several models and measure the results... and in the end we have a best model that can be included in a mobile app to classify new examples. -->
+<!-- Resumindo, no caso de MER, a estratégia típica é: obter um dataset, extraír features, processar as mesmas, partir os dados, testar vários algorítmos e parametros, obter e analisar os resultados (com gráficos, valores, matrizes de confusão). Para um sistema final, usamos o que aprendemos para treinar um modelo final que melhor se comporte - isto é o que o Tiago António e o João Canoso têm estado a fazer, juntando-lhe SE avançada. -->
+<!-- </aside> -->
+</section></section>
+<section>
+<section id="novel-contributions" class="title-slide slide level1">
+<h1>Novel Contributions</h1>
+<aside class="notes">
+Given this, our most relevant contributions have been the proposal novel features.
+</aside>
+<!-- ## Novel Contributions - remove? -->
+<!-- <div class="container"> -->
+<!-- <div style="text-align: left;" class="col"> -->
+<!-- <br> -->
+<!-- <br> -->
+<!-- <ul> -->
+<!--   <li>New public datasets</li> -->
+<!--   <li>Novel features to address -->
+<!--   <ul> -->
+<!--     <li>MER/MIR "glass ceiling"</li> -->
+<!--     <li>Semantic gap</li> -->
+<!--   </ul> -->
+<!--   </li> -->
+<!-- </ul> -->
+<!-- </div> -->
+<!-- <div class="col"> -->
+<!--   <img src="images/glass_ceiling.png" width="600">  -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- <aside class="notes"> -->
+<!-- As maiores limitações actuais são a falta de datasets públicos e de qualidade, e o estagnar dos resultados de classificação, que é atribuído à falta de features de alto nível, ´próximas do que nós humanos usamos. As features áudio que mostrei andam por norma aqui em baixo. -->
+<!-- </aside> -->
+</section>
+<section id="novel-emotionally-relevant-audio-features" class="slide level2">
+<h2>Novel Emotionally-relevant Audio Features</h2>
+<p><img src="images/novel_features.gif"></p>
+<aside class="notes">
+<p>This started by studying the musical elements, then checking if the literature relates them with emotion and finally, verify which musical atributes are said to be relevante to emotion but lack computational algorithms.</p>
+Extra: We’ve identified 3 dimensions (expressive techniques, texture and form) and proposed features for them.
+</aside>
+</section>
+<section id="from-audio-signal-to-notes" class="slide level2">
+<h2>From Audio Signal to Notes</h2>
+<p><img src="images/audio_to_notes.png"></p>
+<audio src="./images/sposing.wav" controls>
+</audio>
+<audio src="./images/sposing midi melody.wav" controls>
+</audio>
+<div style="text-align: left;">
+Each extracted note contains:<br>
+<ul>
+<li>
+A sequence of f0s and saliences
+</li>
+<li>
+Overall note (e.g., A4)
+</li>
+<li>
+Note duration (sec)
+</li>
+<li>
+Starting and ending time
+</li>
+</ul>
+<aside class="notes">
+To capture these we estimate musical notes and their details (duration, strength) directly from the original audio signal
+</aside>
+</section>
+<section id="novel-emotionally-relevant-audio-features-1" class="slide level2">
+<h2>Novel Emotionally-Relevant Audio Features</h2>
+<ul>
+<li>The notes’ data is exploited to model higher level concepts, e.g.,:
+<ul>
+<li>Musical Texture
+<ul>
+<li>Number of lines (thickness), transitions</li>
+</ul></li>
+<li>Expressive techniques
+<ul>
+<li>Articulation</li>
+<li>Glissando</li>
+<li>Vibrato and Tremolo</li>
+</ul></li>
+<li>Melody, dynamics and rhythm
+<ul>
+<li>Related with note pitch, intensity and duration statistics</li>
+</ul></li>
+</ul></li>
+<li>Also explored the voice-only signal in sad/happy songs</li>
+</ul>
+<aside class="notes">
+… and use these to model several features, for instance the presence of vibrato, the articulation between notes and so on
+</aside>
+</section>
+<section id="several-interesting-results" class="slide level2">
+<h2>Several Interesting Results</h2>
+<ul>
+<li>Novel features significantly improve results (8.6%)</li>
+<li>High arousal songs are easier to classify</li>
+<li>Low arousal (calm happy vs. sad songs) are difficult
+<ul>
+<li>Voice-only signal seems relevant for these (sad vs calm)</li>
+</ul></li>
+</ul>
+<aside class="notes">
+These helped to improve emotion classification. In addition, we uncovered several interesting hypotheses: e.g., the voice-only is a key factor in emotion when the songs are low in arousal (e.g. sad or calm), this is lost when mixed.
+</aside>
+</section>
+<section id="ongoing-work" class="slide level2">
+<h2>Ongoing Work</h2>
+<ul>
+<li>Audio/lyrics and Deep Learning
+<ul>
+<li>Emotion Classification</li>
+<li>Transfer Learning</li>
+<li>Data Augmentation</li>
+</ul></li>
+<li>Two FCT projects approved (2021)
+<ul>
+<li>Music Emotion Recognition - Next Generation (PTDC/CCI-COM/3171/2021)</li>
+<li>Playback the music of the brain - decoding emotions elicited by musical sounds in the human brain (EXPL/PSI-GER/0948/2021)</li>
+</ul></li>
+<li><strong>Development of Software Prototypes</strong></li>
+</ul>
+<aside class="notes">
+<p>We are now exploring DL solutions, not only classification but also transfer learning and data augmentation. The core idea is similar to a person that is already good in a task (e.g. play violin), a thus will have an easier time learning another (e.g., play piano). For instance, starting with a model trained to recognize objects in millions of pictures (google!), and retrain it to classify plants.</p>
+<p>Such topics will be explored in the upcoming years, thanks to 2 projects selected for funding.</p>
+<strong>finally</strong>, there is the development of prototypes and solutions and this leads me to…
+</aside>
+</section></section>
+<section>
+<section id="bridging-fundamental-and-applied-research" class="title-slide slide level1">
+<h1>Bridging Fundamental and Applied Research</h1>
+<aside class="notes">
+To conclude, I will briefly describe the application of ML and SE knowledge into different problems, developing working tools.
+</aside>
+</section>
+<section id="mer-web-concept" class="slide level2">
+<h2>MER Web Concept</h2>
+<p>A distributed MER system <strong>proof-of-concept</strong> using <strong>microservices</strong></p>
+<video data-autoplay src="./images/DockerMER.mp4" controls>
+</video>
+<aside class="notes">
+<p>Still regarding MER, in 2019 I challenged a few students to develop a proof-of-concept that automatically classifies the emotion in youtube music videos.</p>
+Goal to assess if a distributed MER system using microservices and message brokers could be implemented.
+</aside>
+</section>
+<section id="monolith-vs.-microservices" class="slide level2">
+<h2>Monolith vs. Microservices</h2>
+<p><img src="images/microservices.png" height="500"></p>
+<aside class="notes">
+<p>This means instead of developing a large monolith of code, each task is carried by smaller, independent services that can be replicated and distributed to work in parallel.</p>
+Para os que nunca ouviram falar de microserviços. Assim por alto, em vez de usar a arquitectura típica, monolítica, em que têm um sistema com MVC ou UI+API, onde a API faz toda a lógica, a ideia é separar tudo em micro serviços, isolados e independentes, em que cada faz algo muito simples em paralelo.
+</aside>
+</section>
+<section id="mer-web-concept-architecture" class="slide level2">
+<h2>MER Web Concept (Architecture)</h2>
+<p><img src="images/dockerMER_architecture.jpg" height="500"></p>
+<aside class="notes">
+<p>This was +- the idea, sorry the PT, it was simple with 3 services as a proof of concept.</p>
+A arquitectura era relativamente simples. A cinza temos ainda a clássica API + FE, só que depois toda a parte de MER são microserviços ligados por uma fila de mensagens. Com 3 serviços para obter o vídeo, extrair características e classificar.
+</aside>
+</section>
+<section id="emotube-wip" class="slide level2">
+<h2>EmoTube (WIP)</h2>
+Complex MER platform fusing <strong>audio</strong> (raw signals), <strong>lyrics</strong> (text), source <strong>separation</strong>, signal <strong>segmentation</strong> and more. Built as containerized microservices (<strong>docker</strong>), with automated tests+builds, paralelization via <strong>brokers</strong>, orchestrated which <strong>kubernetes</strong>, deployed on private cloud.
+<div class="container">
+<div class="col">
+<p><img src="./images/João Canoso.png" height="300"><br> João Canoso (MSc)<br> <small>Cloud Architect / DevOps Engineer<br> Full-Stack Developer</small></p>
+</div>
+<div class="col">
+<p><img src="./images/Tiago António.jpg" height="300"><br> Tiago António (MSc)<br> <small>Machine Learning Engineer<br> Full-Stack Developer</small></p>
+</div>
+</div>
+<aside class="notes">
+Given its success, I challenged two other students to build a robust version that will now deal with much more data, including audio and lyrics, separating the vocals from the audio, classifying the emotion in each (voice, audio, lyrics). All with state-of-the-art approaches in cloud computing.
+</aside>
+</section>
+<section id="emotube-wip-architecture" class="slide level2">
+<h2>EmoTube (WIP) Architecture</h2>
+<p><img src="images/MER%20services%20architecture.png" height="600"><br></p>
+<aside class="notes">
+<p>This is the planned architecture, where each block is a different service communicating though a message broker. They are all independent, each with their simple task and know nothing about the others. E.g. this just receives an youtube URL, downloads the video and saves it to a file.</p>
+Portanto a arquitectura cresceu para isto (até já está algo diferente), em que cada bloco azul é um serviço diferente que pode ter várias cópias simultâneas em paralelo. O User no UI escolhe um vídeo e por aí fora…
+</aside>
+</section>
+<section id="expenses-ocr" class="slide level2">
+<h2>Expenses-OCR</h2>
+<p>Mobile App using OCR to process invoices</p>
+<div class="container">
+<div class="col">
+<p><img src="images/expensesOCR2.jpg" height="500"></p>
+</div>
+<div class="col">
+<p><img src="images/expensesOCR7.jpg" height="500"></p>
+</div>
+<aside class="notes">
+In a completely different direction, this was a problem introduced by a company: workers spending too much time introducing the travel expenses. So I supervised a few students to find a solution to this - a mobile app that can to take a picture of the invoice and parse data.
+</aside>
+</section>
+<section id="expenses-ocr-1" class="slide level2">
+<h2>Expenses-OCR</h2>
+<img src="images/expensesOCR_cover.jpg">
+<aside class="notes">
+This included experimenting with edge detection and so on using OpenCV.
+</aside>
+</section>
+<section id="expenses-ocr-2" class="slide level2">
+<h2>Expenses-OCR</h2>
+<div class="container">
+<div class="col">
+<p><img src="images/expensesOCR3.jpg" height="500"></p>
+</div>
+<div class="col">
+<p><img src="images/expensesOCR4.jpg" height="500"></p>
+</div>
+<aside class="notes">
+And in the end the text data was parsed and added to the form. It also includes a bit of ML, in this case trying to identify the type of expense (i.e., train invoice) - mostly with text, next step was image because of logos.
+</aside>
+</section>
+<section id="vitasenior" class="slide level2">
+<h2>VITASENIOR</h2>
+<p>Telehealth solution to monitor and improve health care for the elderly living in isolated areas <img src="images/vitasenior_architecture.png"></p>
+<aside class="notes">
+There are other projects but I believe I’m out of time by now. VITASENIOR was a funded research project to develp a telehealth solution to monitor elderly people living in isolated areas of PT. It went from the hardware part of the sensors all the way to the cloud infrastructure - the later was supervised by me.
+</aside>
+</section>
+<section id="others" class="slide level2">
+<h2>Others</h2>
+<p>MOVIDA, Strate App, MovTour</p>
+</section></section>
+<section id="congratulations-you-made-it-til-the-end" class="title-slide slide level1">
+<h1>Congratulations, you made it til the end!</h1>
+<aside class="notes">
+<p>And that’s it, hope I didn’t bore you. This was a bit different than most presentations today but my key message is that some times solutions and inspiration come from exploring ideas already used in other fields. Thus I’m here to collaborate and discuss ideas with you.</p>
+</section>
+    </div>
+  </div>
+
+  <script src="presentation_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="presentation_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+        menu: {
+   
+    
+    
+    
+    
+    
+    
+ 
+          custom: false,
+          themes: false,
+          transitions: false
+        },
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'presentation_files/reveal.js-3.3.0.1/plugin/menu/menu.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
